@@ -6,22 +6,39 @@ class MyComponent extends React.Component {
     super(props);
     this.state = {
       error: null,
-      isLoaded: false,
+      isLoading: false,
       hits: []
     };
   }
 
   componentDidMount() {
+    this.setState({ isLoading: true });
+
     fetch("https://hn.algolia.com/api/v1/search_by_date?query=javascript&tags=story&page=0&hitsPerPage=20")
-    .then(response => response.json())
-    .then(data => this.setState({ hits: data.hits }));
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Something went wrong ...');
+        }
+    })
+    .then(data => this.setState({ hits: data.hits, isLoading: false }))
+    .catch(error => this.setState({ error, isLoading: false }));
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
         // exceptions from actual bugs in components.
     }
 
   render() {
-      const { hits } = this.state;
+      const { error, isLoading, hits } = this.state;
+
+      if(isLoading) {
+          return <p>Loading...</p>;
+      }
+
+      if(error) {
+          return <p>{error.message}</p>;
+      }
 
       return (
         <div>
