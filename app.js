@@ -30,30 +30,39 @@ class MyComponent extends React.Component {
     }
 
   render() {
-      const { error, isLoading, hits } = this.state;
-
-      if(isLoading) {
-          return <p>Loading...</p>;
-      }
-
-      if(error) {
-          return <p>{error.message}</p>;
-      }
-
-      return (
-        <div>
-          <ul>
-              {hits.map(hit =>
-                <li key={hit.objectID}>
-                  <a href={hit.url}>{hit.title}</a>
-                </li>
-              )}
-          </ul>
-        </div>
-      );
+      return <ViewComponent { ...this.props} { ...this.state} />;
     }
 
 }
+
+const ViewComponent = ({ error, isLoading, hits }) => {
+    //const { error, isLoading, hits } = this.state;
+
+    if(isLoading) {
+        return <p>Loading...</p>;
+    }
+
+    if(error) {
+        return <p>{error.message}</p>;
+    }
+
+    return (
+      <div>
+        <ul>
+            {hits.map(hit =>
+              <li key={hit.objectID}>
+                <a href={hit.url}>{hit.title}</a>
+                <br />
+                <span>{"Author: "+hit.author}</span>
+                <br />
+                <span>{"Points: "+hit.points}</span>
+                <hr />
+              </li>
+            )}
+        </ul>
+      </div>
+    );
+};
 
 ReactDOM.render(
     <MyComponent />,
