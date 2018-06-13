@@ -16,3 +16,7 @@ hr {
 li {
     list-style-type: decimal;
 }
+
+li:hover {
+    background-color: #333;
+}

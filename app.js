@@ -37,7 +37,7 @@ class MyComponent extends React.Component {
 
 const ViewComponent = ({ error, isLoading, hits }) => {
     //const { error, isLoading, hits } = this.state;
-
+    
     if(isLoading) {
         return <p>Loading...</p>;
     }
